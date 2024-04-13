@@ -1,0 +1,15 @@
+.header {
+  padding-right: 20px;
+  .logout {
+    color: $text-color-primary;
+    cursor: pointer;
+    i {
+      color: $primary-color;
+      margin-right: 5px;
+      font-size: 15px;
+    }
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

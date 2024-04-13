@@ -1,0 +1,25 @@
+.invite {
+  &__item {
+    background-color: #c0c0c0;
+    color: #fff;
+    border-radius: 4px;
+  }
+  &__item.active {
+    background-color: #55aeb4;
+    color: #fff;
+    border-radius: 4px;
+  }
+  &__content {
+    line-height: 52px;
+  }
+  &__icon {
+    width: 0;
+    height: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #fff;
+  }
+}

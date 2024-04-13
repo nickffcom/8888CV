@@ -1,0 +1,13 @@
+$max-widths: 80, 83, 100, 120, 145, 150, 160, 200, 220, 240, 250, 270, 300, 460,
+  500, 520, 800, 850, 900, 950;
+@each $max-width in $max-widths {
+  .max-w-#{$max-width}-px {
+    max-width: $max-width * 1px !important;
+  }
+}
+
+.max-w {
+  &-max-content {
+    max-width: max-content;
+  }
+}

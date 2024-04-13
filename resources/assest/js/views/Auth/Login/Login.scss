@@ -1,0 +1,234 @@
+.check {
+  border: 1.5px solid $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-container {
+  padding-left: 200px;
+  padding-right: 200px;
+  @media screen and (max-width: 1200px) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  &-link {
+    padding-left: 200px;
+    padding-right: 200px;
+    @media screen and (max-width: 1200px) {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+  }
+}
+.title {
+  position: relative;
+  letter-spacing: 5px;
+  &::after {
+    content: '';
+    position: absolute;
+    height: 8px;
+    width: 100%;
+    background-color: #ffeb3b;
+    top: 34px;
+    left: 0px;
+  }
+  &-sub {
+    max-width: 512px;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+}
+
+.authentication-form-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--black-text-color);
+  line-height: 1;
+  -webkit-text-size-adjust: 100%;
+  width: 100%;
+  max-width: 500px;
+
+  .afi-input-container {
+    position: relative;
+    width: 100%;
+    .afi-input::-webkit-input-placeholder {
+      color: transparent;
+    }
+
+    .afi-input {
+      color: var(--black-text-color);
+      font-size: 16px;
+      line-height: unset;
+      margin: 21px 0 0;
+      width: 100%;
+      height: 45px;
+      border: 1.5px solid $primary-color;
+      border-radius: 10px;
+      // box-shadow: inset 0 0 0 100px #fff;
+      padding: 0 30px;
+      &:focus {
+        border: 1.5px solid $primary-color !important;
+        outline: none;
+      }
+    }
+
+    .afi-label {
+      color: #bababa;
+      font-size: 16px;
+      position: absolute;
+      top: 34px;
+      left: 30px;
+      pointer-events: none;
+      -webkit-transition-property: font-size, top;
+      transition-property: font-size, top;
+      -webkit-transition-duration: 0.25s;
+      transition-duration: 0.25s;
+      -webkit-transition-timing-function: ease-out;
+      transition-timing-function: ease-out;
+      font-family: var(--main-font);
+      font-weight: 300;
+      @include res_max-width(374) {
+        font-size: 13px;
+        top: 37px;
+      }
+      @include res_max-width(300) {
+        font-size: 11px;
+        top: 37px;
+      }
+    }
+  }
+}
+
+.lcf-submit {
+  width: 90%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 20px;
+  position: relative;
+  background-color: ($primary-color);
+  font-size: 18px;
+  font-family: var(--main-font);
+  font-weight: normal;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  color: $white;
+  i {
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    font-size: 20px;
+    border-radius: 50%;
+    transition: transform 0.25s linear;
+
+    &.wait {
+      transform: scale(1.2);
+      animation: pulse-animation-white 1s 0.3s linear infinite;
+    }
+  }
+
+  &:hover {
+    background-color: $primary-hover-color !important;
+
+    i {
+      transform: scale(1.2);
+      animation: pulse-animation-white 1s 0.3s linear infinite;
+    }
+  }
+  @include res_max-width(374) {
+    font-size: 13px;
+  }
+}
+
+.authentication-form-input .afi-input-container .afi-input,
+.authentication-form-input .afi-input-container .afi-input:focus {
+  border: 1.5px solid #eee !important;
+  outline: none;
+}
+.authentication-form-input .afi-input-container .afi-input:disabled {
+  background-color: #f8f8f8 !important;
+}
+
+input:-webkit-autofill:disabled {
+  -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.error {
+  margin: 0 10px;
+  line-height: 1.5;
+  color: crimson;
+  display: none;
+}
+.error-email,
+.error-password {
+  display: block;
+}
+.error-input-email,
+.error-input-password,
+.afi-input:focus.error-input-email:focus,
+.afi-input:focus.error-input-password:focus {
+  border-color: crimson !important;
+}
+
+.afi-input:focus + .afi-label,
+.afi-input:not(:placeholder-shown) + .afi-label {
+  font-size: 15px;
+  top: 15px;
+  background-color: #fff;
+  @include res_max-width(374) {
+    font-size: 13px;
+  }
+  @include res_max-width(374) {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 374px) {
+  .login {
+    .icon {
+      font-size: 27px;
+    }
+    .title {
+      font-size: 20px;
+    }
+    .logo {
+      width: 130px;
+      height: 130px;
+    }
+    .text-checkbox {
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: 769px) {
+  .login {
+    .login-form {
+      width: 100%;
+    }
+    .banner {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: 769px) {
+  .login {
+    .login-form {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,131 @@
+.nav-pills .nav-link:not(.active):hover {
+  opacity: 0.8;
+  color: #615a5a;
+}
+
+.main {
+  background: $white-color;
+}
+
+.main-sidebar {
+  background: $white-color;
+  height: 100vh !important;
+}
+
+.nav-pills .nav-link.active {
+  background: $bg-active;
+  color: $text-gray-color;
+}
+
+.main-sidebar {
+  width: 250px;
+  transition: all 0.3s ease;
+  z-index: 12;
+  .sidebar {
+    height: calc(100% - 128px);
+    padding-bottom: 48px !important;
+    .nav-link {
+      padding: 8px 20px;
+    }
+  }
+  .hidden-box-shadow-sidebar {
+    top: 0;
+    right: 0;
+    background-color: $white-color;
+  }
+}
+
+.sidebar {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.name-app-close {
+  margin-left: 0px;
+  opacity: 1;
+  visibility: visible;
+  transition: margin-left 0.3s linear, opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.btn-sidebar-collapse {
+  width: 250px;
+  bottom: 0;
+  z-index: 1039;
+  &:hover span {
+    opacity: 0.6;
+  }
+}
+
+.extend-icon {
+  display: none;
+  z-index: -1;
+  @include res_max-width(992) {
+    display: block;
+    z-index: 10;
+  }
+}
+
+.hide-on-sp {
+  transition: opacity 0.3s ease, visibility 0.3s ease,
+    transform 0.3s ease-in-out, width 0.3s ease-in-out;
+  @include res_max-width(992) {
+    opacity: 0;
+    visibility: hidden;
+    width: 0px !important;
+  }
+}
+
+.separator {
+  display: list-item;
+  background-color: $seperate-color;
+  opacity: 0.2;
+}
+
+.btn-sidebar-collapse {
+  white-space: nowrap;
+  width: 250px;
+  transition: width 0.3s ease-in-out;
+  background-color: $white-color;
+  .text-btn-collapse {
+    margin-left: 10px;
+    opacity: 1;
+    visibility: visible;
+    transition: margin-left 0.3s linear, opacity 0.3s ease, visibility 0.3s ease;
+  }
+  img {
+    width: 20px;
+    height: 20px;
+  }
+  img.toggle-sidebar-icon {
+    transform: scale(1);
+    transition: 0.3s ease;
+    user-select: none;
+    &.logo-xl-btn-collapse {
+      transform: scaleX(-1);
+    }
+  }
+}
+
+#sidebar-overlay {
+  z-index: 0 !important;
+}
+
+.sidebar-collapse.sidebar-mini .main:hover .nav-child-indent .nav-link {
+  width: 3.6rem;
+}
+
+.main-sidebar-resize {
+  width: 80px;
+  transition: all 0.3s ease;
+}
+
+.btn-sidebar-collapse-resize {
+  width: 80px;
+  transition: all 0.3s ease;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+}
