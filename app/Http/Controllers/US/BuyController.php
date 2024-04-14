@@ -8,6 +8,7 @@ use App\Jobs\SendThongBaoMuaHangQueue;
 use App\Models\Data;
 use App\Models\History;
 use App\Models\Order_service;
+use App\Models\OrderService;
 use App\Repository\DataRepo;
 use App\Repository\ServiceRepo;
 use App\Repository\UserRepo;
@@ -184,7 +185,7 @@ class BuyController extends Controller
                 $ref_code = md5(rand(0, 999999) . time() . microtime() . base64_encode(time()) . base64_encode(microtime()) . rand(0, 999999));
                 foreach ($get_service as  $data) {
 
-                    $order_service = new Order_service();
+                    $order_service = new OrderService();
                     $order_service->ref_id = $data['id']; // ref id = data_id
                     $order_service->code = $ref_code;
                     $order_service->price_buy = $price;

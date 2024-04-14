@@ -13,14 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('data', function (Blueprint $table) {
+        Schema::create('datas', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('status')->comment('1: còn , 0 là hết')->default(1);
             $table->json('attr')->nullable();
             $table->integer("service_id")->unsigned()->nullable();
+            $table->integer('status')->comment('1: còn , 0 là hết')->default(1);
+            
             $table->foreign('service_id')
                   ->references('id')
-                  ->on('service');
+                  ->on('services');
             $table->timestamps();
        
         });

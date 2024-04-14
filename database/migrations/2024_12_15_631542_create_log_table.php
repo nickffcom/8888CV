@@ -13,17 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('Logg', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('user');
+        Schema::create('Log', function (Blueprint $table) {
+            $table->increments('id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->string('name')->nullable();
             $table->longText('description')->nullable();
             $table->integer('level')->default(LEVEL_DEFAULT);
             $table->json('var_dump')->nullable();
             $table->string('type');
+
+            $table->foreign('user_id', 'fk_log_users')
+            ->references('id')
+            ->on('users')
+            ->onUpdate('NO ACTION')
+            ->onDelete('NO ACTION');
             $table->timestamps();
         });
     }
