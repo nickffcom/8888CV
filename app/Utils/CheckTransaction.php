@@ -19,93 +19,88 @@ class CheckTransaction
     {
         DB::beginTransaction();
         try {
-                $begin = now()->addDay(0)->format('d/m/Y'); // check tối đa 3 ngày
-                $end =  now()->format('d/m/Y');
-                $username ="0397619750";
-                $password = env("PASS_VCB","withLove");
-                $accountNumber ="1016650160";
-                $urlApi = "https://apibank.otpsystem.com/api/vcb/transactions";
-                $data=[
-                    "begin"=>$begin,
-                    "end"=>$end,
-                    "username"=>$username,
-                    "password"=>$password,
-                    "accountNumber"=>$accountNumber
-                ];
-                $result = Http::post($urlApi,$data);
+            $begin = now()->addDay(0)->format('d/m/Y'); // check tối đa 3 ngày
+            $end =  now()->format('d/m/Y');
+            $username = "0397619750";
+            $password = env("PASS_VCB", "withLove");
+            $accountNumber = "1016650160";
+            $urlApi = "https://apibank.otpsystem.com/api/vcb/transactions";
+            $data = [
+                "begin" => $begin,
+                "end" => $end,
+                "username" => $username,
+                "password" => $password,
+                "accountNumber" => $accountNumber
+            ];
+            $result = Http::post($urlApi, $data);
 
-                if (!$result->body()) {
-                    addLogg("Call VCB","CALL VCB LỖI! ",LEVEL_DEFAULT);
-                    DB::commit();
-                    return "Call Lỗi";
-                }
-                $data = json_decode($result, true);
-                if(!isset($data['transactions'])){
-                    return ;
-                }
-                foreach ($data['transactions'] as $x) {
+            if (!$result->body()) {
+                addLogg("Call VCB", "CALL VCB LỖI! ", LEVEL_DEFAULT);
+                DB::commit();
+                return "Call Lỗi";
+            }
+            $data = json_decode($result, true);
+            if (!isset($data['transactions'])) {
+                return;
+            }
+            foreach ($data['transactions'] as $x) {
 
-                    if (isset($x['Description']) && $x['CD'] == "+") {
-                        $transactionID = preg_replace('/\s+/', '', $x['Reference']);
-                        $amount = (int)str_replace(",","",$x['Amount']) ;
-                        $description = $x['Description'];
-                        $transactionDate = $x['TransactionDate'];
-                        $now = $end;  // 30/12/2022
-                        if($transactionDate == $now && $amount > 30000){
-                            $userAdd = null;
-                            if(preg_match('/naptien\s(.*?)\W/i',$description,$match)){ // naptien hainao\s
-                                $userAdd = $match[1];
-                            }else if(preg_match('/nap\stien\s(.*?)\W/i',$description,$match)){
-                                $userAdd = $match[1];
-                            }
-                            else if(preg_match('/naptien(.*?)\Z/',$description,$match)){
-                                $userAdd = $match[1];
-                            }
-                            else if(preg_match('/nap\stien(.*?)\Z/',$description,$match)){
-                                $userAdd = $match[1];
-                            }
-                            if(isset($userAdd)){
-                                $username = preg_replace('/\s+/', '', $match[1]);
-                                $user = User::where('username', trim($username))->first();
-                                if (isset($user->id)) {
-                                    $check = History::where(
-                                        [
-                                        'user_id'=>$user->id,
-                                        'action_id'=>$transactionID,
-                                        ])
-                                        // ->whereDate('created_at','=',Carbon::today()->toDateString())->toSql()
-                                        // ->whereRaw("DATE_FORMAT(created_at, '%Y%m%d') = {$now->format('Ymd')}")
-                                        ->first()
-                                        ;
-                                    $money = (int)$amount;
-                                    if (!isset($check->id)) {
-                                        $resultUpdate = $user->increment('money', $money);
-                                        if ($resultUpdate) {
-                                            $resultCreate = History::create([
-                                                'action_id' => $transactionID,
-                                                'content' => 'Nạp tiền Auto qua VCB',
-                                                'total_money' => $money,
-                                                'type' => NAP_TIEN,
-                                                'user_id' => $user->id
-                                            ]);
-                                            
-                                        }
-                                        $dataSend['username'] = $username;
-                                        $dataSend['sotiendanap']= $money;
-                                        $dataSend['thongtinthem'] = "Nạp tiền Auto Qua VCB";
-                                        dispatch(new SendThongBaoNapTienQueue($dataSend));
+                if (isset($x['Description']) && $x['CD'] == "+") {
+                    $transactionID = preg_replace('/\s+/', '', $x['Reference']);
+                    $amount = (int)str_replace(",", "", $x['Amount']);
+                    $description = $x['Description'];
+                    $transactionDate = $x['TransactionDate'];
+                    $now = $end;  // 30/12/2022
+                    if ($transactionDate == $now && $amount > 30000) {
+                        $userAdd = null;
+                        if (preg_match('/naptien\s(.*?)\W/i', $description, $match)) { // naptien hainao\s
+                            $userAdd = $match[1];
+                        } else if (preg_match('/nap\stien\s(.*?)\W/i', $description, $match)) {
+                            $userAdd = $match[1];
+                        } else if (preg_match('/naptien(.*?)\Z/', $description, $match)) {
+                            $userAdd = $match[1];
+                        } else if (preg_match('/nap\stien(.*?)\Z/', $description, $match)) {
+                            $userAdd = $match[1];
+                        }
+                        if (isset($userAdd)) {
+                            $username = preg_replace('/\s+/', '', $match[1]);
+                            $user = User::where('username', trim($username))->first();
+                            if (isset($user->id)) {
+                                $check = History::where(
+                                    [
+                                        'user_id' => $user->id,
+                                        'action_id' => $transactionID,
+                                    ]
+                                )
+                                    // ->whereDate('created_at','=',Carbon::today()->toDateString())->toSql()
+                                    // ->whereRaw("DATE_FORMAT(created_at, '%Y%m%d') = {$now->format('Ymd')}")
+                                    ->first();
+                                $money = (int)$amount;
+                                if (!isset($check->id)) {
+                                    $resultUpdate = $user->increment('money', $money);
+                                    if ($resultUpdate) {
+                                        $resultCreate = History::create([
+                                            'action_id' => $transactionID,
+                                            'content' => 'Nạp tiền Auto qua VCB',
+                                            'total_money' => $money,
+                                            'type' => NAP_TIEN,
+                                            'user_id' => $user->id
+                                        ]);
                                     }
+                                    $dataSend['username'] = $username;
+                                    $dataSend['sotiendanap'] = $money;
+                                    $dataSend['thongtinthem'] = "Nạp tiền Auto Qua VCB";
+                                    dispatch(new SendThongBaoNapTienQueue($dataSend));
                                 }
                             }
-                        
                         }
-                        
                     }
                 }
-                DB::commit();
+            }
+            DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            addLogg("Exception VCB","=>>Lỗi là:" . $e->getMessage(),LEVEL_EXCEPTION,null,null);
+            addLogg("Exception VCB", "=>>Lỗi là:" . $e->getMessage(), LEVEL_EXCEPTION, null, null);
         }
     }
 
@@ -148,7 +143,7 @@ class CheckTransaction
                         $id = $info['id'];
                         $money = $x['SoTienGhiNo'];
                         $money = str_replace(',', '', $money);
-					    $money = trim($money);
+                        $money = trim($money);
                         // fwrite($fp, implode('|', $x) . '|' . date('H:i:s - d/m/Y', time()) . "\n");
                         if (is_numeric($money) && $money > 0) {
                             $update = "UPDATE users SET money = money + $money WHERE uid = " . $id;

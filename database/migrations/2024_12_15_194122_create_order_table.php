@@ -13,19 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_services', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->integer('ref_id')->unsigned()->nullable();
             $table->string('code')->nullable();
-            $table->integer('price_buy');
             $table->integer('user_id')->unsigned();
             $table->integer("type")->unsigned()->nullable()->default(MAIN_SHOP);
+            $table->integer('total_buy');
+            $table->integer('status')->unsigned();
             
             $table->foreign('user_id', 'fk_order_service_users')
-            ->references('id')
-            ->on('users')
-            ->onUpdate('NO ACTION')
-            ->onDelete('NO ACTION');
+                ->references('id')
+                ->on('users')
+                ->onUpdate('NO ACTION')
+                ->onDelete('NO ACTION');
             $table->timestamps();
         });
     }

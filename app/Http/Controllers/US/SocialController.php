@@ -13,12 +13,13 @@ use Laravel\Socialite\Facades\Socialite;
 class SocialController extends Controller
 {
 
-    public function rediRectSocial($type){
+    public function rediRectSocial($type)
+    {
         return Socialite::driver($type)->redirect();
     }
-    public function handleSocial($type){
-        try 
-        {
+    public function handleSocial($type)
+    {
+        try {
             $user = Socialite::driver($type)->user();
             // 3362005910793713
             $idUser = $user->getId();
@@ -27,32 +28,30 @@ class SocialController extends Controller
             $avatar = $user->getAvatar();
             $typeSocial = ($type == 'facebook') ? FACEBOOK : GOOGLE;
             $createUser = User::updateOrCreate(
-                    [
-                      'social_id' => $idUser,
-                      'type_social'=>$typeSocial
-                    ],
-                    // $nickName." ".strtoupper($type)." ".$numberRd
-                    [
+                [
+                    'social_id' => $idUser,
+                    'type_social' => $typeSocial
+                ],
+                // $nickName." ".strtoupper($type)." ".$numberRd
+                [
                     'username' => $email,
                     'email' => $email,
                     'social_id' => $idUser,
-                    'type_social'=>$typeSocial,
-                    'avatar'=>$avatar,
-                    'password' => Hash::make($email."999")
-                    ]
+                    'type_social' => $typeSocial,
+                    'avatar' => $avatar,
+                    'password' => Hash::make($email . "999")
+                ]
             );
-                Auth::login($createUser,true);
-                return redirect('/');
-            
+            Auth::login($createUser, true);
+            return redirect('/');
         } catch (Exception $e) {
-            addLogg("handleSocial","Lỗi:".$e->getMessage(),LEVEL_EXCEPTION);
-            return "Lỗi".$e;
+            addLogg("handleSocial", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
+            return "Lỗi" . $e;
         }
-
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         return "OK";
     }
-    
 }

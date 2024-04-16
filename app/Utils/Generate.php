@@ -20,6 +20,4 @@ class Generate
             return substr(str_shuffle(str_repeat($char, 5)), 0, $length);
         }
     }
-
-   
 }

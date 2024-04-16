@@ -17,13 +17,12 @@ return new class extends Migration
             $table->increments('id')->unsigned();
             $table->json('attr')->nullable();
             $table->integer("service_id")->unsigned()->nullable();
-            $table->integer('status')->comment('1: còn , 0 là hết')->default(1);
-            
+            $table->integer('status')->comment('1: Còn , 0 là Hết')->default(1);
+
             $table->foreign('service_id')
-                  ->references('id')
-                  ->on('services');
+                ->references('id')
+                ->on('services');
             $table->timestamps();
-       
         });
     }
 
