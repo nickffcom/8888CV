@@ -1,0 +1,70 @@
+.c-chat {
+  &__body {
+    height: calc(100vh - 60px - 65px - 80px);
+  }
+  &__txt {
+    border-radius: 0 10px 10px 10px;
+  }
+  &__txt-user {
+    border-radius: 10px 0 10px 10px;
+    white-space: pre-line;
+  }
+  &__input-chat {
+    border-color: #55aeb4;
+    max-height: 115px;
+    &::placeholder {
+      text-align: center;
+      color: #cbcbcb !important;
+    }
+    &:focus {
+      outline: none !important;
+      border: 1px solid #55aeb4;
+    }
+  }
+
+  &__action {
+    i {
+      color: #55aeb4;
+      padding: 5px 5px 5px 0;
+    }
+  }
+  &__input {
+    position: relative;
+  }
+  &__emoji {
+    display: none;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 200px;
+    height: 250px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #ececec;
+    border-radius: 5px;
+  }
+  &__remove-file-icon {
+    top: 5px;
+    right: 5px;
+    &::before {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+.emoji-panel {
+  .chat-input-tool {
+    background: none;
+    padding: 5px;
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    position: absolute;
+    top: 51%;
+    right: 45px;
+    transform: translateY(-50%);
+    i {
+      color: #55aeb4;
+      font-size: 20px;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+$gaps: 0, 5, 10, 15, 20, 30, 40, 50, 80, 180, 260;
+@each $gap in $gaps {
+  .gap-#{$gap} {
+    gap: $gap * 1px;
+  }
+  .gap-xs-#{$gap} {
+    @include res_max-width(576) {
+      gap: $gap * 1px !important;
+    }
+  }
+  .gap-sm-#{$gap} {
+    @include res_max-width(768) {
+      gap: $gap * 1px !important;
+    }
+  }
+  .gap-md-#{$gap} {
+    @include res_max-width(992) {
+      gap: $gap * 1px !important;
+    }
+  }
+  .gap-lg-#{$gap} {
+    @include res_max-width(1200) {
+      gap: $gap * 1px !important;
+    }
+  }
+}

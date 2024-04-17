@@ -1,0 +1,70 @@
+$values: 0, 1, 2, 3;
+@each $value in $values {
+  .border-#{$value}-px {
+    border: $value * 1px solid $grey2 !important;
+  }
+}
+
+@each $value in $values {
+  .border-left-#{$value}-px {
+    border-left: $value * 1px solid $grey2 !important;
+  }
+}
+
+@each $value in $values {
+  .border-right-#{$value}-px {
+    border-right: $value * 1px solid $grey2 !important;
+  }
+}
+
+@each $value in $values {
+  .border-top-#{$value}-px {
+    border-top: $value * 1px solid $grey2 !important;
+  }
+}
+
+@each $value in $values {
+  .border-bottom-#{$value}-px {
+    border-bottom: $value * 1px solid $grey2 !important;
+  }
+}
+
+.border {
+  border: 1px solid $grey2;
+}
+
+.border-left {
+  border-left: 1px solid $grey2;
+}
+
+.border-right {
+  border-right: 1px solid $grey2;
+}
+
+.border-bottom {
+  border-bottom: 1px solid $grey2;
+}
+
+.border-top {
+  border-top: 1px solid $grey2;
+}
+
+.border-1-color-grey {
+  border: 1px solid #eee;
+}
+
+.border-top-1-color-grey {
+  border-top: 1px solid #eee !important;
+}
+
+.border-bottom-1-color-grey {
+  border-bottom: 1px solid #eee !important;
+}
+
+.border-bottom-2-color-grey {
+  border-bottom: 2px solid $grey2 !important;
+}
+
+.border-none {
+  border: none !important;
+}

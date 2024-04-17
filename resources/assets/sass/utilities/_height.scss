@@ -1,0 +1,39 @@
+$heights: 1, 2, 4, 10, 15, 19, 20, 23, 25, 30, 32, 35, 40, 45, 50, 55, 60, 65, 66, 70, 72, 80, 90, 100, 105, 120, 125,
+  130, 150, 195, 250, 300, 500;
+@each $height in $heights {
+  .h-#{$height}-px {
+    height: $height * 1px;
+  }
+  .h-#{$height} {
+    height: $height * 1% !important;
+  }
+  .h-xs-#{$height} {
+    @include res_max-width(576) {
+      height: $height * 1px !important;
+    }
+  }
+  .h-sm-#{$height} {
+    @include res_max-width(768) {
+      height: $height * 1px !important;
+    }
+  }
+  .h-md-#{$height} {
+    @include res_max-width(992) {
+      height: $height * 1px !important;
+    }
+  }
+  .h-lg-#{$height} {
+    @include res_max-width(1200) {
+      height: $height * 1px !important;
+    }
+  }
+  .h-xl-#{$height} {
+    @include res_min-width(1201) {
+      height: $height * 1px !important;
+    }
+  }
+}
+
+.h-fit-content {
+  height: fit-content !important;
+}

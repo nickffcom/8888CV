@@ -1,6 +1,0 @@
-$zs-index: 1, 10, 11, 12, 13, 1000, 1038, 1039;
-@each $z-index in $zs-index {
-  .z-index-#{$z-index} {
-    z-index: $z-index !important;
-  }
-}

@@ -1,0 +1,52 @@
+$positionsPx: 0, 3, 5, 10, 13, 16, 20, 25, 33, 37;
+@each $position in $positionsPx {
+  .top-#{$position}-px {
+    top: $position * 1px !important;
+  }
+  .left-#{$position}-px {
+    left: $position * 1px !important;
+  }
+
+  .right-#{$position}-px {
+    right: $position * 1px !important;
+  }
+
+  .bottom-#{$position}-px {
+    bottom: $position * 1px !important;
+  }
+}
+
+@each $position in $positionsPx {
+  .top-#{$position} {
+    top: $position * 1% !important;
+  }
+  .left-#{$position} {
+    left: $position * 1% !important;
+  }
+
+  .right-#{$position} {
+    right: $position * 1% !important;
+  }
+
+  .bottom-#{$position} {
+    bottom: $position * 1% !important;
+  }
+}
+
+$positionsPx: 0;
+@each $position in $positionsPx {
+  .top-#{$position} {
+    top: $position * 1rem !important;
+  }
+  .left-#{$position} {
+    left: $position * 1rem !important;
+  }
+
+  .right-#{$position} {
+    right: $position * 1rem !important;
+  }
+
+  .bottom-#{$position} {
+    bottom: $position * 1rem !important;
+  }
+}

@@ -1,5 +1,4 @@
 const mix = require("laravel-mix");
-const ESLintPlugin = require("eslint-webpack-plugin");
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -25,8 +24,10 @@ mix
     extractStyles: false,
     globalStyles: "./resources/assets/sass/common/global.scss",
   })
-  .js("resources/assets/js/app.js", "public/js")
-  .js("resources/assets/js/auth.js", "public/js")
-  .sass("resources/assets/sass/application.scss", "public/css")
+  .js("resources/assets/js/app.js", "public/user/js")
+  .js("resources/assets/js/auth.js", "public/user/js")
+  .sass("resources/c/sass/application.scss", "public/user/css")
   .version("public/js", "public/css");
-// .sourceMaps()
+
+// mix.copy("resources/assets/css", "public/user/css")
+

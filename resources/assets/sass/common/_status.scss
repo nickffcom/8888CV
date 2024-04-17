@@ -1,0 +1,42 @@
+%common-status {
+  border-radius: 4px;
+  margin: 0 auto;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  line-height: 31px;
+}
+
+.status {
+  &-primary-outline {
+    @extend %common-status;
+    border: 1px solid $primary-color;
+    background-color: $primary-color;
+    color: #fff;
+  }
+  &-warning-outline {
+    @extend %common-status;
+    border: 1px solid #eac343;
+    color: #eac343 !important;
+  }
+  &-warning {
+    @extend %common-status;
+    background-color: #eac343;
+    padding: 2px;
+    color: #fff;
+  }
+  &-error {
+    @extend %common-status;
+    background-color: white;
+    border-color: $red1;
+    padding: 2px;
+    color: $red1;
+  }
+  &-error-outline {
+    @extend %common-status;
+    border: 1px solid $red1;
+    color: $red1;
+  }
+}
