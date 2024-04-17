@@ -14,6 +14,11 @@ import axios from "../../utils/axios";
 export const login = (params) => {
   return axios.post("/login", params);
 };
+
+export const register = (params) => {
+  return axios.post("/register", params);
+};
+
 export const logout = () => {
   axios
     .get("/logout")

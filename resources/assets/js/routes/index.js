@@ -6,7 +6,7 @@ const routes = [
 
   {
     name: "LoginMethod",
-    path: "/login-method",
+    path: "/login",
     component: () => import("../views/Auth/Login/Login.vue"),
   },
   {
@@ -31,7 +31,7 @@ router.beforeEach((to, from) => {
   const isLogin = JSON.parse(localStorage.getItem("isLogin"));
   if (to.meta.requiresAuth && !isLogin) {
     return {
-      path: "/login-method",
+      path: "/login",
     };
   }
   if (to.meta.requiresAuth === ADMIN_ROLE && !isAdminRole) {

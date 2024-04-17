@@ -13522,7 +13522,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var baseURL = "/api/v1";
+var baseURL = "/api/";
 var refreshAPI = "/refresh_token";
 var instance = axios__WEBPACK_IMPORTED_MODULE_2__["default"].create({
   baseURL: baseURL
@@ -13597,7 +13597,6 @@ instance.interceptors.response.use(function (res) {
     _token__WEBPACK_IMPORTED_MODULE_0__["default"].set(_constants__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_TOKEN, res.data.access_token || "");
     _token__WEBPACK_IMPORTED_MODULE_0__["default"].set(_constants__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_REFRESHTOKEN, res.data.refresh_token || "");
   }
-  // TODO Fix JWT in php laravel
   if (res !== null && res !== void 0 && (_res$data2 = res.data) !== null && _res$data2 !== void 0 && _res$data2.exception && res !== null && res !== void 0 && (_res$data3 = res.data) !== null && _res$data3 !== void 0 && _res$data3.message) {
     window.location.href = _constants__WEBPACK_IMPORTED_MODULE_1__.LOGIN_ROUTE;
   }
@@ -23815,7 +23814,7 @@ var index = {
 var map = {
 	"./Login.vue": [
 		"./resources/assets/js/views/Auth/Login/Login.vue",
-		"resources_assets_js_views_Auth_Login_Login_vue"
+		"resources_assets_js_views_Auth_Login_Login_vue-_27171"
 	]
 };
 function webpackAsyncContext(req) {
@@ -31699,7 +31698,7 @@ function useRoute() {
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
+/******/ 			id: moduleId,
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
@@ -31715,6 +31714,18 @@ function useRoute() {
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -31925,6 +31936,11 @@ function useRoute() {
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

@@ -6,7 +6,7 @@ import {
   LOGIN_ROUTE,
 } from "../constants";
 
-const baseURL = "/api/v1";
+const baseURL = "/api/";
 
 const refreshAPI = "/refresh_token";
 
@@ -67,7 +67,6 @@ instance.interceptors.response.use(
       localToken.set(LOCAL_STORAGE_TOKEN, res.data.access_token || "");
       localToken.set(LOCAL_STORAGE_REFRESHTOKEN, res.data.refresh_token || "");
     }
-    // TODO Fix JWT in php laravel
     if (res?.data?.exception && res?.data?.message) {
       window.location.href = LOGIN_ROUTE;
     }

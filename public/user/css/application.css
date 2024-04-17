@@ -743,7 +743,6 @@ template {
   background-repeat: no-repeat;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url(/images/arrow-down-color.png?eb6087db77bba12d8edfe2d2daa6acf2);
 }
 .select-list:focus-visible {
   outline: none;

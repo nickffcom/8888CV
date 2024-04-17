@@ -26,7 +26,8 @@ mix
   })
   .js("resources/assets/js/app.js", "public/user/js")
   .js("resources/assets/js/auth.js", "public/user/js")
-  .sass("resources/c/sass/application.scss", "public/user/css")
+  .copy("resources/assets/css", "public/user/css")
+  .sass("resources/assets/sass/application.scss", "public/user/css")
   .version("public/js", "public/css");
 
 // mix.copy("resources/assets/css", "public/user/css")
