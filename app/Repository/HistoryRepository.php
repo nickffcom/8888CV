@@ -28,7 +28,7 @@ class HistoryRepository extends BaseRepo
     }
 
     public function getThongKeDoanhThu()
-    { // nget ạp tiền vào thôi nhé
+    {
         $value = $this->model->where('type', NAP_TIEN)
             ->selectRaw('SUM(total_money) as TONG_TIEN')
             ->first();

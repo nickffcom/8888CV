@@ -17,6 +17,13 @@ class SocialController extends Controller
     {
         return Socialite::driver($type)->redirect();
     }
+
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function handleSocial($type)
     {
         try {

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ViewOrderDetailRequest;
 use App\Http\Requests\ViewOrderRequest;
 use App\Repository\DataRepository;
-use App\Repository\OrderServiceRepository;
+use App\Repository\OrderRepository;
 use Carbon\Carbon;
 use Exception;
 use PDF;
@@ -17,12 +17,18 @@ class OrderController extends Controller
 
     protected $orderRepo;
     protected $dataRepo;
-    public function __construct(OrderServiceRepository $orderRepo, DataRepository $dataRepo)
+    public function __construct(OrderRepository $orderRepo, DataRepository $dataRepo)
     {
         $this->orderRepo = $orderRepo;
         $this->dataRepo = $dataRepo;
     }
 
+
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getviewOrder(ViewOrderRequest $request)
     {
         try {
@@ -44,6 +50,11 @@ class OrderController extends Controller
     }
 
 
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getViewOrderDetailByCode(ViewOrderDetailRequest $request)
     {
         try {
@@ -59,6 +70,12 @@ class OrderController extends Controller
         }
     }
 
+
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function downloadOrderByCode(ViewOrderDetailRequest $request)
     { // file Txt
 

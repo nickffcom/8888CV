@@ -3,20 +3,19 @@
 namespace App\Repository;
 
 use App\Repository\BaseRepo;
-use App\Models\Order_service;
-use App\Models\OrderService;
+use App\Models\Order;
 use App\Models\Service;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrderServiceRepository extends BaseRepo
+class OrderRepository extends BaseRepo
 {
 
 
     public function getModel()
     {
-        return OrderService::class;
+        return Order::class;
     }
 
 

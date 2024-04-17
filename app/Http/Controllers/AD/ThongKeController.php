@@ -5,7 +5,7 @@ namespace App\Http\Controllers\AD;
 use App\Http\Controllers\Controller;
 use App\Models\History;
 use App\Models\Order_service;
-use App\Models\OrderService;
+use App\Models\Order;
 use App\Models\User;
 use App\Repository\DataRepo;
 use App\Repository\DataRepository;
@@ -35,9 +35,9 @@ class ThongKeController extends Controller
     public function ThongKeDoanhThu(Request $request)
     {
         $allUser = User::count();
-        $allOrder = OrderService::count();
+        $allOrder = Order::count();
         $thongke = $this->historyRepo->getThongKeDoanhThu(); // all tiền vào shop
-        $allMoneyOrder = OrderService::sum('price_buy');
+        $allMoneyOrder = Order::sum('price_buy');
 
         $ngayhientai = now()->format('Ymd');
         $thanghientai = now()->format('Ym');

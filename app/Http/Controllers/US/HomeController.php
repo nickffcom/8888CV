@@ -23,6 +23,12 @@ class HomeController extends Controller
         $this->serviceRepo = $serviceRepo;
         $this->historyRepo = $historyRepo;
     }
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function home()
     {
         try {
@@ -65,21 +71,44 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function napTien()
     {
 
         return view('User.pay');
     }
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function lichSuNapTien()
     {
         $me = Auth::user();
         $historyPayment = $this->historyRepo->getHistoryByUser($me->id, NAP_TIEN);
         return view('User.history_pay')->with('historyPayment', $historyPayment);
     }
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function Hotro()
     {
         return view('User.support');
     }
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getTaiKhoan()
     {
         $me = Auth::user();
@@ -87,6 +116,12 @@ class HomeController extends Controller
             'me' => $me
         ]);
     }
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function LichSuThanhToan()
     {
         $list = $this->historyRepo->getHistory(GIAO_DICH, 20);
@@ -96,7 +131,12 @@ class HomeController extends Controller
             'counts' => $count
         ]);
     }
-
+    
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getDataAndCache($domain, $incrementPrice)
     {
         $tk = env("USER_API");

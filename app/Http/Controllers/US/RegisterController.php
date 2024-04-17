@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
+
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function register(Request $request)
     {
         $customMessage = [

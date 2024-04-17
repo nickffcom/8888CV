@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/adminlte.3.2.0.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('css/application.css') }}">
-
     @include('_cdn')
 </head>
 

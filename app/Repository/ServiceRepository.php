@@ -27,7 +27,7 @@ class ServiceRepository extends BaseRepo
             $rs = $this->model->where('type', $type)->orderBy('id', 'ASC')->get();
         } else {
             $rs = Service::select('service.*', DB::raw('(SELECT COUNT(*) FROM data WHERE data.service_id = service.id AND data.status = 1) AS amount'))
-            ->get()->toArray();
+                ->get()->toArray();
         }
 
         $lists = array();
@@ -43,5 +43,4 @@ class ServiceRepository extends BaseRepo
         $service = $this->model->where('id', $id)->first();
         return isset($service) ? $service : null;
     }
-
 }

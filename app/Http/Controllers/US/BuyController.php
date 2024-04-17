@@ -8,7 +8,7 @@ use App\Jobs\SendThongBaoMuaHangQueue;
 use App\Models\Data;
 use App\Models\History;
 use App\Models\Order_service;
-use App\Models\OrderService;
+use App\Models\Order;
 use App\Repository\DataRepo;
 use App\Repository\DataRepository;
 use App\Repository\ServiceRepo;
@@ -35,6 +35,11 @@ class BuyController extends Controller
     }
 
 
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function HandleBuy(BuyRequest $request)
     {
         $type = $request->input('type'); // trường hợp mua = API Muafb.net
@@ -75,12 +80,12 @@ class BuyController extends Controller
                     $domain = $type_API == 2 ? 'muafb.net' : 'muaviabm.vn';
                     $getDataFromApi = Http::get("https://$domain/api/BResource.php?username=nickffcom&password=Nqdiencuboy99**&id=$idBuy&amount=$quantity");
                     if (!$getDataFromApi->ok()) {
-                        addLogg("Failed Api MuaFB", "Lỗi" . Conver_ToString($getDataFromApi->body()), LEVEL_PRIORITY, $me->id);
+                        addLog("Failed Api MuaFB", "Lỗi" . Conver_ToString($getDataFromApi->body()), LEVEL_PRIORITY, $me->id);
                         return RESULT(false, "Lỗi server =>> Báo Admin gấp nhé b ơii");
                     }
 
                     $getDataFromApi = json_decode($getDataFromApi);
-                    addLogg("Call Api MuaFB", Conver_ToString($getDataFromApi), LEVEL_PRIORITY, $me->id);
+                    addLog("Call Api MuaFB", Conver_ToString($getDataFromApi), LEVEL_PRIORITY, $me->id);
                     if (!$getDataFromApi->status == "success") {
                         return RESULT(false, "Lỗi Hệ thống =>> Báo Admin liền giúp mình nha fb zalo 0397619750");
                     } else if (!isset($getDataFromApi->data->trans_id)) {
@@ -97,12 +102,17 @@ class BuyController extends Controller
             return response()->json($result);
         } catch (Exception $e) {
             $description = isset($check) ? 'Đã trừ tiền user nhưng bị lỗi' : '';
-            addLogg("Func HandleBuy Main" . $description, $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
+            addLog("Func HandleBuy Main" . $description, $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
             return RESULT(false, "Báo cho admin gấp nếu thấy có lỗi");
         }
     }
 
 
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function BuyDataFromMuaFbNet($quantity, $type, $getDataFromApi, $total_money, $data, $typeOrder)
     {
         DB::beginTransaction();
@@ -130,7 +140,7 @@ class BuyController extends Controller
 
             foreach ($arrData as  $item) {
 
-                $order_service = new OrderService();
+                $order_service = new Order();
                 $order_service->ref_id = $item->id; // ref id = data_id
                 $order_service->code = $trans_id;
                 $order_service->price_buy = (int)$data->price;
@@ -159,12 +169,17 @@ class BuyController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             // $this->userRepo->updateMoney($moneyRemain);
-            addLogg("Funciton BuyDataFromMuaFbNet", $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
+            addLog("Funciton BuyDataFromMuaFbNet", $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
             return ["status" => false, "message" => "Báo ngay cho Admin để xử lý gấp"];
         }
     }
 
-    //Buy Via ,Clone ,BM ở website của mình
+
+    /**
+     * Index
+     * @param 
+     * @return \Illuminate\Contracts\View\View
+     */
     public function BuyDataAds($idBuy, $quantity)
     {
 
@@ -188,7 +203,7 @@ class BuyController extends Controller
                 $ref_code = md5(rand(0, 999999) . time() . microtime() . base64_encode(time()) . base64_encode(microtime()) . rand(0, 999999));
                 foreach ($get_service as  $data) {
 
-                    $order_service = new OrderService();
+                    $order_service = new Order();
                     $order_service->ref_id = $data['id']; // ref id = data_id
                     $order_service->code = $ref_code;
                     $order_service->price_buy = $price;
@@ -222,7 +237,7 @@ class BuyController extends Controller
             }
         } catch (Exception $e) {
             DB::rollBack();
-            addLogg("Funciton BuyData", Conver_ToString($e->getMessage()), LEVEL_EXCEPTION);
+            addLog("Funciton BuyData", Conver_ToString($e->getMessage()), LEVEL_EXCEPTION);
             return ["status" => false, "message" => "Báo ngay cho Admin để xử lý gấp"];
         }
     }

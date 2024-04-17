@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Log extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -15,11 +15,10 @@ class Log extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'ref_id',
+        'code',
+        'price_buy',
         'user_id',
-        'name',
-        'description',
-        'level',
-        'var_dump',
         'type',
     ];
 
@@ -36,16 +35,4 @@ class Log extends Model
      * @var array<string, string>
      */
     protected $casts = [];
-
-    public function note($name, $descrip, $level, $user_id = null, $varDump = [], $type = '')
-    {
-        return Log::create([
-            'name' => $name,
-            'description' => $descrip,
-            'level' => $level,
-            'user_id' => $user_id,
-            'var_dump' => json_encode($varDump),
-            'type' => $type
-        ]);
-    }
 }

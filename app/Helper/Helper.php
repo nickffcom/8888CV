@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Log;
-use App\Models\Logg;
 use Carbon\Carbon;
 
 const CON_HANG = 1;
@@ -28,6 +27,8 @@ const LEVEL_DEFAULT = 0;
 const LEVEL_EXCEPTION = 1;
 const LEVEL_BUG = 2;
 const LEVEL_PRIORITY = 100;
+const SEVER_ERROR = "Có lỗi đã xảy ra phía sever ! Vui lòng thử lại hoặc liên hệ admin";
+const SUCCESS = "Thành công";
 function RESULT($status, $message = '', $data = [])
 {
     return response()->json(['status' => $status, 'message' => $message, 'data' => $data]);
@@ -53,7 +54,7 @@ function Conver_ToString($object)
     }
     return $object;
 }
-function addLogg($name, $descrip, $level, $user_id = null, $varDump = [], $type = '')
+function addLog($name, $descrip, $level, $user_id = null, $varDump = [], $type = '')
 {
     return Log::create([
         'name' => $name,
