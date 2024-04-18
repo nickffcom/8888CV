@@ -1,7 +1,7 @@
 <template>
-  <Sidebar />
-  <Header />
   <div class="layout">
+    <Sidebar />
+    <!-- <Header /> -->
     <div class="layout-content">
       <router-view />
     </div>
@@ -17,6 +17,10 @@ import Sidebar from "../components/User/Sidebar.vue";
 // import { LoadingMixins } from "../../mixins/Loading";
 export default {
   name: "DashboardUser",
+  components: {
+    Header,
+    Sidebar,
+  },
   setup() {
     const isLoading = ref(false);
     return { isLoading };

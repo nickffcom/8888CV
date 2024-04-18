@@ -1,5 +1,5 @@
 <template>
-   <h1>Trang chủ nè</h1>
+
 </template>
 
 <script>
