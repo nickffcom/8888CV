@@ -9,6 +9,7 @@ export const ADMIN_ROLE = "ADMIN_ROLE";
 export const STAFF_ROLE = "STAFF_ROLE";
 export const LOCAL_STORAGE_ISROLEADMIN = "isRoleAdmin";
 export const USER_ID_ADMIN = 1;
+export const IS_LOGIN = "IS_LOGIN";
 
 export const ERROR_MESSAGE = {
   loginError: "メールアドレス又はパスワードが違います。",

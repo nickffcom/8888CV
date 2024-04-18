@@ -80,13 +80,10 @@ instance.interceptors.response.use(
     } = error;
     if (validateStatus()) return Promise.reject(error);
     if (status === 401 && config.url !== LOGIN_ROUTE) {
-      const token = localToken.get(LOCAL_STORAGE_REFRESHTOKEN);
-      if (token) {
-        return refreshToken(config, token);
-      } else {
-        window.location.href = LOGIN_ROUTE;
-        return Promise.reject(error);
-      }
+
+      window.location.href = LOGIN_ROUTE;
+      return Promise.reject(error);
+
     }
     return Promise.reject(error);
   }

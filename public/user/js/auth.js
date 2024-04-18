@@ -13155,6 +13155,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ERROR_MESSAGE: () => (/* binding */ ERROR_MESSAGE),
 /* harmony export */   HOME_ROUTE: () => (/* binding */ HOME_ROUTE),
 /* harmony export */   INVITATION_CONTENT: () => (/* binding */ INVITATION_CONTENT),
+/* harmony export */   IS_LOGIN: () => (/* binding */ IS_LOGIN),
 /* harmony export */   LOCAL_STORAGE_ISLOGIN: () => (/* binding */ LOCAL_STORAGE_ISLOGIN),
 /* harmony export */   LOCAL_STORAGE_ISROLEADMIN: () => (/* binding */ LOCAL_STORAGE_ISROLEADMIN),
 /* harmony export */   LOCAL_STORAGE_REFRESHTOKEN: () => (/* binding */ LOCAL_STORAGE_REFRESHTOKEN),
@@ -13185,6 +13186,7 @@ var ADMIN_ROLE = "ADMIN_ROLE";
 var STAFF_ROLE = "STAFF_ROLE";
 var LOCAL_STORAGE_ISROLEADMIN = "isRoleAdmin";
 var USER_ID_ADMIN = 1;
+var IS_LOGIN = "IS_LOGIN";
 var ERROR_MESSAGE = {
   loginError: "メールアドレス又はパスワードが違います。",
   emailError: "メールアドレスを入力してください。",
@@ -13607,13 +13609,8 @@ instance.interceptors.response.use(function (res) {
     status = error.response.status;
   if (validateStatus()) return Promise.reject(error);
   if (status === 401 && config.url !== _constants__WEBPACK_IMPORTED_MODULE_1__.LOGIN_ROUTE) {
-    var token = _token__WEBPACK_IMPORTED_MODULE_0__["default"].get(_constants__WEBPACK_IMPORTED_MODULE_1__.LOCAL_STORAGE_REFRESHTOKEN);
-    if (token) {
-      return refreshToken(config, token);
-    } else {
-      window.location.href = _constants__WEBPACK_IMPORTED_MODULE_1__.LOGIN_ROUTE;
-      return Promise.reject(error);
-    }
+    window.location.href = _constants__WEBPACK_IMPORTED_MODULE_1__.LOGIN_ROUTE;
+    return Promise.reject(error);
   }
   return Promise.reject(error);
 });

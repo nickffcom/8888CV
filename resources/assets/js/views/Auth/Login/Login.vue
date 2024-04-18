@@ -49,10 +49,12 @@
 <script>
 import { ref } from "vue";
 import { login, register } from "../../../apis/auth/auth";
+import { useRouter } from 'vue-router';
 
 export default {
   name: "Login",
   setup() {
+    const router = useRouter(); 
     const isActive = ref(false);
     const usernameSignIn = ref("");
     const passwordSignIn = ref("");
@@ -73,9 +75,10 @@ export default {
       login(data)
         .then((res) => {
           console.log("res", res);
+          router.push({ name: 'Home'});
         })
         .catch((err) => {
-          console.log("err", res);
+          console.log("err", err);
           this.msg = err.response.data.error;
           this.emitter.emit("isShowLoading", false);
         });

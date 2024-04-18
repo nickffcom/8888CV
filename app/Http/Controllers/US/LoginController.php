@@ -45,7 +45,7 @@ class LoginController extends Controller
                     'user' => $user,
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
-                ], 200);
+                ]);
             }
             $this->incrementAttempts($request);
             return response()->json(["message" => "Account/Password is incorrect"], 403);
