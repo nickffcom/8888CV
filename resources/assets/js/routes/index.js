@@ -3,7 +3,19 @@ import { ADMIN_ROLE, STAFF_ROLE } from "../constants";
 import NotFound from "../views/Notfound/NotfoundScreen.vue";
 
 const routes = [
-
+  // {
+  //   name: "DashboardAdmin",
+  //   path: "/",
+  //   component: DashboardAdmin,
+  //   meta: { requiresAuth: true },
+  //   children: [
+  //     {
+  //       name: "Home",
+  //       path: "",
+  //       component: () => import("../views/Admin/Home/Home.vue"),
+  //     },
+  //   ],
+  // },
   {
     name: "LoginMethod",
     path: "/login",

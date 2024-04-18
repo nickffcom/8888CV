@@ -5,12 +5,15 @@ namespace App\Http\Controllers\US;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Traits\ThrottlesAttempts;
+use App\Models\Log;
+use App\Models\Note;
 use App\Repository\UserRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+
 
 class LoginController extends Controller
 {
@@ -37,18 +40,18 @@ class LoginController extends Controller
             if (Auth::attempt($credentials, $remember)) {
                 $this->clearAttempts($request);
                 $user = Auth::user();
-                $tokenResult = $user->createToken('auth8888', ["view:any"])->plainTextToken;
+                $tokenResult = $user->createToken("auth8888", ["view:any"], Carbon::now()->addMonths(3))->plainTextToken;
                 return response()->json([
-                    'status' => true,
+                    'user' => $user,
                     'access_token' => $tokenResult,
                     'token_type' => 'Bearer',
-                ]);
+                ], 200);
             }
             $this->incrementAttempts($request);
-            return response()->json(["status" => false, "message" => "Account/Password is incorrect"]);
+            return response()->json(["message" => "Account/Password is incorrect"], 403);
         } catch (Exception $e) {
-            Log::note("Login User Exception : ", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
-            return response()->json(["status" => false, "message" => SEVER_ERROR]);
+            Note::note("Login User Exception : ", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
+            return response()->json(["message" => SEVER_ERROR], 403);
         }
     }
 

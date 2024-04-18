@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Log;
+use App\Models\Note;
 use Carbon\Carbon;
 
 const CON_HANG = 1;
@@ -54,9 +54,9 @@ function Conver_ToString($object)
     }
     return $object;
 }
-function addLog($name, $descrip, $level, $user_id = null, $varDump = [], $type = '')
+function addLogg($name, $descrip, $level, $user_id = null, $varDump = [], $type = '')
 {
-    return Log::create([
+    return Note::create([
         'name' => $name,
         'description' => $descrip,
         'level' => $level,

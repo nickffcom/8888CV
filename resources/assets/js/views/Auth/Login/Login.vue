@@ -38,7 +38,7 @@
           <h1>Chào mừng bạn!</h1>
           <p>Đăng ký để xem nhiều thủ thuật , ưu đãi chỉ có riêng ở đây</p>
           <button class="bg-color-green" id="register" @click="showSignIn">
-            Đăng ký
+            Đăng ký ngay
           </button>
         </div>
       </div>
@@ -69,11 +69,8 @@ export default {
     }
 
     function handleSignIn(event) {
-      console.log("sign in", event);
-      const authentication = new FormData();
-      authentication.append("email", usernameSignIn);
-      authentication.append("password", passwordSignIn);
-      login({username:usernameSignIn.value,password:passwordSignIn.value})
+      const data = { username: usernameSignIn.value, password: passwordSignIn.value };
+      login(data)
         .then((res) => {
           console.log("res", res);
         })
