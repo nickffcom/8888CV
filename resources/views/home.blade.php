@@ -34,7 +34,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
     <script src="{{ mix('user/js/app.js') }}"></script>
-    <script>
+    {{-- <script>
         const body = document.querySelector("body"),
             modeToggle = body.querySelector(".mode-toggle");
         sidebar = body.querySelector("nav");
@@ -67,7 +67,7 @@
                 localStorage.setItem("status", "open");
             }
         })
-    </script>
+    </script> --}}
 </body>
 
 </html>
