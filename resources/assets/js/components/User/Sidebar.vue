@@ -292,6 +292,7 @@ nav {
     background-color: var(--panel-color);
     border-right: 1px solid var(--border-color);
     transition: var(--tran-05);
+     box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.7);
 }
 nav.close {
     width: 73px;
