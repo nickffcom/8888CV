@@ -10,38 +10,51 @@
             <ul class="nav-links">
                 <li>
                     <a href="#">
-                        <i class="uil uil-estate"></i>
-                        <span class="link-name">Dahsboard</span>
+                        <!-- <i class="uil uil-estate"></i> -->
+                          <Vue3Lottie animationLink='https://lottie.host/f8b1da76-f597-430b-b4b8-ac681f382b03/tjz94iZXyR.json' :height="20" :width="20" />
+                        <span class="link-name">Trang chủ</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="uil uil-files-landscapes"></i>
-                        <span class="link-name">Content</span>
+                        <span class="link-name">Lịch sử mua</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="uil uil-chart"></i>
-                        <span class="link-name">Analytics</span>
+                        <span class="link-name">Nạp tiền</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="uil uil-thumbs-up"></i>
-                        <span class="link-name">Like</span>
+                        <span class="link-name">Lịch sử nạp tiền</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="uil uil-comments"></i>
-                        <span class="link-name">Comment</span>
+                        <span class="link-name">Hỗ trợ</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="#">
+                        <i class="uil uil-share"></i>
+                        <span class="link-name">Tut new </span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
                         <i class="uil uil-share"></i>
-                        <span class="link-name">Share</span>
+                        <span class="link-name">Check Live Uid</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="#">
+                        <i class="uil uil-share"></i>
+                        <span class="link-name">Get 2FA Tool</span>
                     </a>
                 </li>
             </ul>
@@ -50,7 +63,7 @@
                 <li>
                     <a href="#" @click="logout">
                         <i class="uil uil-signout"></i>
-                        <span class="link-name">Logout</span>
+                        <span class="link-name">Đăng xuất</span>
                     </a>
                 </li>
                 <li class="mode">
