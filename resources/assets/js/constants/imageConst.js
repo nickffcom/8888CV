@@ -1,0 +1,1 @@
+export const ICON_HISTORY = require("../../images/icon/history_icon.json");
