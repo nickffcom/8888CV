@@ -24,7 +24,7 @@ class ViewOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'type'=>'required|in:VIA,BM,CLONE'
+            'type'=>'nullable|in:VIA,BM,CLONE'
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\US;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ViewOrderDetailRequest;
 use App\Http\Requests\ViewOrderRequest;
+use App\Models\Note;
 use App\Repository\DataRepository;
 use App\Repository\OrderRepository;
 use Carbon\Carbon;
@@ -25,38 +26,40 @@ class OrderController extends Controller
 
 
     /**
-     * Index
-     * @param 
+     * Get Current user's purchase history
+     * @param ViewOrderRequest $request
      * @return \Illuminate\Contracts\View\View
      */
-    public function getviewOrder(ViewOrderRequest $request)
+    public function getOrders(ViewOrderRequest $request)
     {
+        $user = Auth::user();
         try {
-
-            $userId = Auth::user()->id;
             $type = $request->query('type');
-            $lists_order = $this->orderRepo->getOrder($type);
-            $getHistoryOrder = $this->orderRepo->getHistoryOrder($type, $userId);
-            $haha = $this->orderRepo->getHistoryOrderAPI($type, $userId);
-            $rs = collect([$getHistoryOrder, $haha])->collapse();
+            $listOrder = $this->orderRepo->getOrderMainShop($user, $type);
+            $getHistoryOrder = $this->orderRepo->getHistoryOrder($type, $user->id);
+            $haha = $this->orderRepo->getHistoryOrderAPI($type, $user->id);
+            $result = collect([$getHistoryOrder, $haha])->collapse();
             return view('User.order', [
-                'lists_order' => $lists_order,
+                'lists_order' => $listOrder,
                 'type' => $type,
-                'list' => $rs
+                'list' => $result
             ]);
+            return response()->json(["data" => $listOrder, "dataAPI" => $listOrder, 'type' => $type]);
         } catch (Exception $e) {
-            addLogg("Get View Order", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $userId);
+            Note::note("API Get Order", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $user->id);
+            return response()->json(["message" => SEVER_ERROR]);
         }
     }
 
 
     /**
-     * Index
+     * Get Order Detail
      * @param 
      * @return \Illuminate\Contracts\View\View
      */
-    public function getViewOrderDetailByCode(ViewOrderDetailRequest $request)
+    public function getOrderDetail(ViewOrderDetailRequest $request)
     {
+        $user = Auth::user();
         try {
 
             $code = $request->query("code");
@@ -65,8 +68,8 @@ class OrderController extends Controller
             $view = view('User.view_order')->with('lists', $lists)->with('type', $type)->render();
             return $view;
         } catch (Exception $e) {
-            $userId = Auth::user()->id;
-            addLogg("getViewOrderDetailByCode", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $userId);
+            Note::note("getViewOrderDetailByCode", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $user->id);
+            return response()->json(["message" => SEVER_ERROR]);
         }
     }
 
@@ -76,9 +79,9 @@ class OrderController extends Controller
      * @param 
      * @return \Illuminate\Contracts\View\View
      */
-    public function downloadOrderByCode(ViewOrderDetailRequest $request)
+    public function downloadOrder(ViewOrderDetailRequest $request)
     { // file Txt
-
+        $user = Auth::user();
         try {
             $code = $request->query("code");
             $type = $request->query("type");
@@ -132,8 +135,7 @@ class OrderController extends Controller
                 return $pdfContent->stream('myPDF.pdf');
             }
         } catch (Exception $e) {
-            $userId = Auth::user()->id;
-            addLogg("downloadOrderByCode", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $userId);
+            Note::note("downloadOrderByCode", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $user->id);
         }
     }
 }

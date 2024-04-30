@@ -4,12 +4,8 @@ namespace App\Repository;
 
 use App\Repository\BaseRepo;
 use App\Http\Controllers\Concerns\Paginatable;
-use App\Models\Data;
-use App\Models\History;
 use App\Models\Service;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class ServiceRepository extends BaseRepo
 {
@@ -30,7 +26,9 @@ class ServiceRepository extends BaseRepo
         if (isset($type)) {
             $query->where("type", $type);
         }
-        $listServices = $query->orderBy('id', 'ASC')->withCount('datas')->get();
+        $listServices = $query->orderBy('id', 'ASC')->withCount(['datas' => function (Builder $query) {
+            $query->where('status', STATUS_OK);
+        }])->get();
         $listServices->map->setAttribute('typeApi', MAIN_SHOP);
         return $listServices;
     }

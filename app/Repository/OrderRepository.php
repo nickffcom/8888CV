@@ -2,32 +2,59 @@
 
 namespace App\Repository;
 
+use App\Models\Note;
 use App\Repository\BaseRepo;
 use App\Models\Order;
-use App\Models\Service;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class OrderRepository extends BaseRepo
 {
-
 
     public function getModel()
     {
         return Order::class;
     }
 
-
-    public function getOrder($type)
-    {  // lấy ra các bộ và số lần mua các bộ đó
-        $me = Auth::user();
-        return Service::select('*', DB::raw('(SELECT COUNT(DISTINCT code) FROM order_service INNER JOIN data ON (order_service.ref_id = data.id) WHERE service.id = data.service_id AND order_service.user_id = ' . $me->id . ') as total_count'))
-            ->where('type', $type)
-            ->get();
+    /**
+     * Get Current user's purchase history of main shop
+     * @param User $user
+     * @param String $type
+     * @return mixed|Collection
+     */
+    public function getOrderMainShop(User $user, String $type = null)
+    {
+        // return $user->orders()->where('type', $type)->get();
+        $query  =  Order::whereHas('user', function (Builder $query) use ($user) {
+            $query->where('user_id', $user);
+        });
+        if (isset($type)) {
+            $query->where('type', $type);
+        }
+        return $query->paginate();
     }
+
+    /**
+     * Get Order Detail Main Shop
+     * @param User $user
+     * @return mixed|Collection
+     */
+    public function getOrderDetail(User $user, String $type)
+    {
+        return $user->orders()->where('type', $type)->get();
+    }
+
+    /**
+     * Get History Order
+     * @param User $user
+     * @param String $type
+     * @return mixed|Collection
+     */
     public function getHistoryOrder($type, $userID)
-    {  // xem order bn lần và giá cả sao
+    {
         try {
             DB::statement("SET SQL_MODE=''");
             $data = DB::table('order_service')
@@ -44,15 +71,20 @@ class OrderRepository extends BaseRepo
             DB::statement('SET sql_mode = true;');
             return $data;
         } catch (Exception $e) {
-            addLogg("SQL MODE NGUY HIỂM", "Lỗi:" . $e->getMessage(), LEVEL_BUG, Auth::user()->id);
+            Note::note("SQL MODE NGUY HIỂM", "Lỗi:" . $e->getMessage(), LEVEL_BUG, Auth::user()->id);
             DB::statement('SET sql_mode = true;');
         }
     }
 
-
+    /**
+     * Get History Order API
+     * @param String $type
+     * @param String $userId
+     * @return mixed|Collection
+     */
     public function getHistoryOrderAPI($type, $userID)
-    {  // xem order bn lần và giá cả sao
-        $haha = DB::table('order_service')
+    {
+        return DB::table('order_service')
             ->join('data', 'data.id', '=', 'order_service.ref_id')
             ->select('order_service.*', 'data.attr->type as type', 'data.attr->service as service_name', DB::raw('COUNT(*) AS total_buy'), DB::raw('SUM(order_service.price_buy) AS total_price'))
             ->where('data.attr->type', '=', $type)
@@ -60,6 +92,5 @@ class OrderRepository extends BaseRepo
             ->groupByRaw('order_service.code')
             ->orderByRaw('order_service.id DESC')
             ->get();
-        return $haha;
     }
 }

@@ -40,7 +40,7 @@ class LoginController extends Controller
             if (Auth::attempt($credentials, $remember)) {
                 $this->clearAttempts($request);
                 $user = Auth::user();
-                $tokenResult = $user->createToken("auth8888", ["view:any"], Carbon::now()->addMonths(3))->plainTextToken;
+                $tokenResult = $user->createToken("auth8888", ["can-any"], Carbon::now()->addMonths(3))->plainTextToken;
                 return response()->json([
                     'user' => $user,
                     'access_token' => $tokenResult,

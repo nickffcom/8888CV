@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Order extends Model
+
+class OrderItem extends Model
 {
     use HasFactory;
 
@@ -35,4 +38,20 @@ class Order extends Model
      * @var array<string, string>
      */
     protected $casts = [];
+
+    /**
+     * Eloquent relationship with table Orders
+     */
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Model relationship with table datas
+     */
+    public function data(): HasOne
+    {
+        return $this->hasOne(Data::class);
+    }
 }

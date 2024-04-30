@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Repository\BaseRepo;
 use App\Models\History;
+use App\Models\User;
 
 class HistoryRepository extends BaseRepo
 {
-
     public function getModel()
     {
         return History::class;
@@ -26,13 +26,13 @@ class HistoryRepository extends BaseRepo
 
     /**
      * Get History By User and type
-     * @param String $userId
+     * @param User $user
      * @param String $type
      * @return Array|Collection
      */
-    public function getHistoryByUser($userId, $type)
+    public function getHistoryByUser(User $user, String $type)
     {
-        return $this->model->where('type', $type)->where('user_id', $userId)->orderBy("created_at", "desc")->get();
+        return $user->histories()->orderBy("created_at", "desc")->paginate();
     }
 
     /**
