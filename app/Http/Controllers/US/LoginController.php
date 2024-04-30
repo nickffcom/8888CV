@@ -56,7 +56,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Index
+     * Logout current user
      * @param  Request $request
      * @return \Illuminate\Contracts\View\View
      */
@@ -67,7 +67,7 @@ class LoginController extends Controller
             $request->user()->tokens()->delete();
             return response()->json(["status" => false, "message" => "Success"]);
         } catch (Exception $e) {
-            Log::note("Logout User Exception : ", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
+            Note::note("Logout User Exception : ", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
             return response()->json(["status" => false, "message" => SEVER_ERROR]);
         }
     }
@@ -93,7 +93,7 @@ class LoginController extends Controller
                 return response()->json(["status" => false, "message" => "Update failed =>> Old password is invalid"]);
             }
         } catch (Exception $e) {
-            Log::note("Update Info User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $me->id);
+            Note::note("Update Info User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $me->id);
             return response()->json(["status" => false, "message" => SEVER_ERROR]);
         }
     }

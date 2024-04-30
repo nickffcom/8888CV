@@ -4,6 +4,7 @@ use App\Http\Controllers\AD\LogController;
 use App\Http\Controllers\AD\ManageUserController;
 use App\Http\Controllers\AD\ServiceController;
 use App\Http\Controllers\AD\ThongKeController;
+use App\Http\Controllers\US\DataController;
 use App\Http\Controllers\US\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post("/login", [LoginController::class, "login"]);
+Route::get("/datas", [DataController::class, "getData"]);
 Route::group(['middleware' => 'auth:sanctum'], function () {
+
 
     Route::post('/service/update', [ServiceController::class, "HandleService"])->name("updateService");
     Route::post('/service/add/{type}', [ServiceController::class, "addService"])->name("addService");
@@ -44,8 +47,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     // Route::view('/history-bank','Admin.history_bank');
     Route::get('/history-bank', [ServiceController::class, 'viewHistoryBank']);
-    Route::group(['prefix' => 'manage'], function () {
-        Route::get('/log', [LogController::class, 'viewIndex']);
-        Route::post('/log/{log}/delete', [LogController::class, 'delete']);
-    });
 });

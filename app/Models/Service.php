@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
 {
@@ -18,6 +19,7 @@ class Service extends Model
         'name',
         'description',
         'price',
+        'status',
         'type'
     ];
 
@@ -34,4 +36,12 @@ class Service extends Model
      * @var array<string, string>
      */
     protected $casts = [];
+
+    /**
+     * Model relationship with table datas
+     */
+    public function datas(): HasMany
+    {
+        return $this->hasMany(Data::class);
+    }
 }

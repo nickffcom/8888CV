@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->integer('price');
             $table->string('type');
+            $table->integer('status')->default(STATUS_OK);
             $table->timestamps();
         });
     }

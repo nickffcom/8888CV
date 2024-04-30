@@ -5,6 +5,8 @@ use Carbon\Carbon;
 
 const CON_HANG = 1;
 const HET_HANG = 0;
+const STATUS_OK = 1;
+const STATUS_FAIL = 0;
 const IS_ADMIN = 1999;
 const NAP_TIEN = 'payment';
 const GIAO_DICH = 'transaction';

@@ -3,52 +3,69 @@
 namespace App\Repository;
 
 use App\Repository\BaseRepo;
-use App\Http\Controllers\Concerns\Paginatable;
-use App\Models\Data;
 use App\Models\History;
 
 class HistoryRepository extends BaseRepo
 {
-
 
     public function getModel()
     {
         return History::class;
     }
 
-
-    public function getHistory($type, $amount = 10)
+    /**
+     * Get History
+     * @param String $type
+     * @param Integer $amount
+     * @return Array|Collection
+     */
+    public function getHistory($type, $amount = 15)
     {
         return $this->model->where('type', $type)->orderBy("created_at", "desc")->take($amount)->get();
     }
 
+    /**
+     * Get History By User and type
+     * @param String $userId
+     * @param String $type
+     * @return Array|Collection
+     */
     public function getHistoryByUser($userId, $type)
     {
         return $this->model->where('type', $type)->where('user_id', $userId)->orderBy("created_at", "desc")->get();
     }
 
-    public function getThongKeDoanhThu()
+    /**
+     * Get a list of revenue statistics
+     * @return Array|Collection
+     */
+    public function getRevenueStatistics()
     {
-        $value = $this->model->where('type', NAP_TIEN)
+        return  $this->model->where('type', NAP_TIEN)
             ->selectRaw('SUM(total_money) as TONG_TIEN')
             ->first();
-
-        return $value;
     }
 
+    /**
+     * Get a list of revenue statistics by time
+     * @param String $time
+     * @return Array|Collection
+     */
     public function getThongKeDoanhThuBy($time = null)
     {
         $query = $this->model->where('type', NAP_TIEN);
         if ($time) {
             $query->whereRaw("DATE_FORMAT(created_at, '%Y%m%d') = {$time}");
-            // $query->whereTime('created_at','=',$time);
         }
         return $query->sum('total_money');
     }
 
+    /**
+     * Get all history for screen admin
+     * @return Array|Collection
+     */
     public function getAllHistoryToManage()
     {
-
         $value = $this->model->join('user', 'user.id', 'history.user_id')
             ->select('history.*', 'user.username')
             ->orderBy('history.created_at', 'asc')

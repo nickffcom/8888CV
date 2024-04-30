@@ -14,28 +14,25 @@ use Illuminate\Support\Facades\DB;
 class ServiceRepository extends BaseRepo
 {
 
-
     public function getModel()
     {
         return Service::class;
     }
 
+    /**
+     * Get List Services and Count Data Each Service 
+     * @param String $type
+     * @return mixed
+     */
     public function getServiceWeb($type = null)
     {
-
+        $query = $this->model->where("status", STATUS_OK);
         if (isset($type)) {
-            $rs = $this->model->where('type', $type)->orderBy('id', 'ASC')->get();
-        } else {
-            $rs = Service::select('service.*', DB::raw('(SELECT COUNT(*) FROM data WHERE data.service_id = service.id AND data.status = 1) AS amount'))
-                ->get()->toArray();
+            $query->where("type", $type);
         }
-
-        $lists = array();
-        foreach ($rs as $x) {
-            $x["type_Api"] = 1;
-            $lists[strtoupper($x['type'])][] = (object)$x;
-        }
-        return $lists;
+        $listServices = $query->orderBy('id', 'ASC')->withCount('datas')->get();
+        $listServices->map->setAttribute('typeApi', MAIN_SHOP);
+        return $listServices;
     }
 
     public function checkSerViceExits($id)
