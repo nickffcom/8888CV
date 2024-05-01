@@ -71,6 +71,7 @@ class ManageUserController extends Controller
         DB::beginTransaction();
         try {
             return response()->json(["message" => SUCCESS]);
+            DB::commit();
         } catch (Exception $e) {
             return response()->json(["message" => SEVER_ERROR]);
         }

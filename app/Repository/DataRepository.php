@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Repository\BaseRepo;
 use App\Models\Data;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DataRepository extends BaseRepo
@@ -68,5 +69,47 @@ class DataRepository extends BaseRepo
             $query->where('status', $status);
         }
         return $query->paginate();
+    }
+
+    /**
+     * Save Data
+     * @param Request $request
+     */
+    public function saveData(Request $request)
+    {
+        $dataInput = $request->input('data');
+        $typeId = $request->input('type_id');
+        $data = trim($dataInput);
+        $data = explode("\n", $data);
+        $data = array_map('trim', $data);
+
+        $success = 0;
+        $error = 0;
+        $dataErr = [];
+
+        foreach ($data as $item) {
+            list($attribute1, $attribute2, $attribute3, $attribute4, $attribute5, $note) = explode('|', $item);
+
+            if (strlen($attribute1) < 0) {
+                $error++;
+                array_push($dataErr, $attribute1);
+            }
+            $resultAdd = Data::create([
+                'status' => CON_HANG,
+                'service_id' => $typeId,
+                'attr' => json_encode(FORMAT_JSON($attribute1, $attribute2, $attribute3, $attribute4, $attribute5, $note))
+            ]);
+            if ($resultAdd) {
+                $success++;
+            } else {
+                $error++;
+                array_push($dataErr, $attribute1);
+            }
+        }
+        $count = [
+            "error" => $error,
+            "success" => $success
+        ];
+        return  ["count" => $count, "message" => $dataErr];
     }
 }

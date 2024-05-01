@@ -67,6 +67,13 @@ function addLogg($name, $descrip, $level, $user_id = null, $varDump = [], $type 
         'type' => $type
     ]);
 }
+
+function FORMAT_JSON($attribute1, $attribute2, $attribute3, $attribute4, $attribute5, $attribute6 = '')
+{
+
+    return ['attribute1' => $attribute1, 'attribute2' => $attribute2, 'attribute3' => $attribute3, 'attribute4' => $attribute4, 'attribute5' => $attribute5, 'attribute6' => $attribute6];
+}
+
 function DB_VIA($uid, $pass, $key2fa, $email, $passMail, $note = '')
 {
 

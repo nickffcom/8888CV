@@ -11,7 +11,7 @@ class UpdateDataRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateDataRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'attribute1' => 'required|string|max:300',
+            'attribute2' => 'required|string|max:300',
+            'attribute3' => 'required|string|max:300',
+            'attribute4' => 'required|string|max:300',
+            'attribute5' => 'required|string|max:300',
+            'attribute6' => 'required|string|max:300',
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateDataRequest;
 use App\Http\Requests\UpdateDataRequest;
 use App\Models\Data;
+use App\Models\Note;
 use App\Repository\DataRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class ManageDataController extends Controller
             $data = $this->dataRepo->getAllData();
             return response()->json(["data" => $data]);
         } catch (Exception $e) {
+            Note::note("API Get List User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
             return response()->json(["message" => SEVER_ERROR]);
         }
     }
@@ -41,9 +43,10 @@ class ManageDataController extends Controller
     public function store(CreateDataRequest $request, Data $data)
     {
         try {
-            $data = $this->dataRepo->getAllData(CON_HANG, $request->type);
-            return response()->json(["data" => $data]);
+            $data = $this->dataRepo->saveData($request);
+            return response()->json($data);
         } catch (Exception $e) {
+            Note::note("API Store Data", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
             return response()->json(["message" => SEVER_ERROR]);
         }
     }
@@ -71,8 +74,10 @@ class ManageDataController extends Controller
     public function update(UpdateDataRequest $request, Data $data)
     {
         try {
+            $data->update($request->all());
             return response()->json([]);
         } catch (Exception $e) {
+            Note::note("API Update User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
             return response()->json(["message" => SEVER_ERROR]);
         }
     }
@@ -88,6 +93,7 @@ class ManageDataController extends Controller
             $data->delete();
             return response()->json(["status" => true, "message" => "Xóa thành công"]);
         } catch (Exception $e) {
+            Note::note("API Delete User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
             return response()->json(["message" => SEVER_ERROR]);
         }
     }
