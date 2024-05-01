@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 class NoteRepository extends BaseRepo
 {
 
-
   public function getModel()
   {
     return Note::class;

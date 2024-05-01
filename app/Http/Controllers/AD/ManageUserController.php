@@ -3,50 +3,112 @@
 namespace App\Http\Controllers\AD;
 
 use App\Http\Controllers\Controller;
-use App\Repository\UserRepo;
+use App\Jobs\SendThongBaoCongTienAdminQueue;
+use App\Models\Note;
+use App\Models\User;
+use App\Repository\HistoryRepository;
+use App\Repository\UserRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ManageUserController extends Controller
 {
     protected $userRepo;
-
-    public function __construct(UserRepo $userRepo)
+    protected $historyRepo;
+    public function __construct(UserRepository $userRepo, HistoryRepository $historyRepo)
     {
         $this->userRepo = $userRepo;
+        $this->historyRepo = $historyRepo;
     }
 
-
-    
     /**
-     * Index
-     * @param 
-     * @return \Illuminate\Contracts\View\View
+     * Display a listing of the resource.
      */
-    public function detailUser(Request $request)
+    public function index()
     {
         try {
-            $id = $request->input('uid');
-            return $this->userRepo->find($id);
+            $data = $this->userRepo->getAllandPaginate();
+            return response()->json(["data" => $data]);
         } catch (Exception $e) {
-            addLogg("detailUser", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
+            return response()->json(["message" => SEVER_ERROR]);
         }
     }
 
     /**
-     * Index
-     * @param 
-     * @return \Illuminate\Contracts\View\View
+     * Store a newly created resource in storage.
      */
-    public function ManageUsers(Request $request)
+    public function store(Request $request)
     {
         try {
-            $list_user = $this->userRepo->getAll();
-            return view('Admin.users', [
-                'list_user' => $list_user
-            ]);
+            $data = $request->all();
+            $data['money'] = 0;
+            $this->userRepo->create($data);
+            return response()->json(["message" => SUCCESS]);
         } catch (Exception $e) {
-            addLogg("ManageUsers", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
+            Note::note("API Store User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
+            return response()->json(["message" => SEVER_ERROR]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * @param Request $equest
+     * @param  User $user
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, User $user)
+    {
+        DB::beginTransaction();
+        try {
+            return response()->json(["message" => SUCCESS]);
+        } catch (Exception $e) {
+            return response()->json(["message" => SEVER_ERROR]);
+        }
+    }
+
+    /**
+     * @param Request $equest
+     * @param  User $user
+     * Update the specified resource in storage.
+     */
+    public function updateMoney(Request $request, User $user)
+    {
+        DB::beginTransaction();
+        try {
+            $user = $this->userRepo->getUserByUserName($request);
+            $this->userRepo->updateMoneyByUserName($request, $user);
+            $this->historyRepo->createHistoryRecharge($request, $user);
+            DB::commit();
+            $data['username'] = $user->username;
+            $data['tongtien'] = $user;
+            dispatch(new SendThongBaoCongTienAdminQueue($data));
+            $this->userRepo->update($data);
+            return response()->json(["message" => SUCCESS]);
+        } catch (Exception $e) {
+            return response()->json(["message" => SEVER_ERROR]);
+        }
+    }
+
+    /**
+     * @param User $user
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user)
+    {
+        try {
+            $user->delete();
+            return response()->json(["status" => true, "message" => "Xóa thành công"]);
+        } catch (Exception $e) {
+            return response()->json(["message" => SEVER_ERROR]);
         }
     }
 }

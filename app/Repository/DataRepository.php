@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class DataRepository extends BaseRepo
 {
 
-
   public function getModel()
   {
     return Data::class;
@@ -41,20 +40,4 @@ class DataRepository extends BaseRepo
     return $rs->get();
   }
 
-  public function getAllDataOrder($code, $type)
-  {  // get các data của 1 lần order
-    $me = Auth::user();
-
-    $lists = $this->model->selectRaw('order_service.*, data.*')
-    ->join('order_service', 'data.id', '=', 'order_service.ref_id')
-    ->where('order_service.code', $code)
-    ->where('order_service.user_id', $me->id);
-
-    $lists = $lists->get();          
-    return $lists;
-  }
-
-  public function addServiceData($request)
-  {
-  }
 }

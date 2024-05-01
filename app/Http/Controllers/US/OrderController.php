@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ViewOrderDetailRequest;
 use App\Http\Requests\ViewOrderRequest;
 use App\Models\Note;
+use App\Models\Order;
 use App\Repository\DataRepository;
 use App\Repository\OrderRepository;
 use Carbon\Carbon;
@@ -36,15 +37,7 @@ class OrderController extends Controller
         try {
             $type = $request->query('type');
             $listOrder = $this->orderRepo->getOrderMainShop($user, $type);
-            $getHistoryOrder = $this->orderRepo->getHistoryOrder($type, $user->id);
-            $haha = $this->orderRepo->getHistoryOrderAPI($type, $user->id);
-            $result = collect([$getHistoryOrder, $haha])->collapse();
-            return view('User.order', [
-                'lists_order' => $listOrder,
-                'type' => $type,
-                'list' => $result
-            ]);
-            return response()->json(["data" => $listOrder, "dataAPI" => $listOrder, 'type' => $type]);
+            return response()->json(["data" => $listOrder, 'type' => $type]);
         } catch (Exception $e) {
             Note::note("API Get Order", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $user->id);
             return response()->json(["message" => SEVER_ERROR]);
@@ -54,21 +47,18 @@ class OrderController extends Controller
 
     /**
      * Get Order Detail
-     * @param 
-     * @return \Illuminate\Contracts\View\View
+     * @param ViewOrderDetailRequest $request
+     * @param Order $order
+     * @return Array|Collection
      */
-    public function getOrderDetail(ViewOrderDetailRequest $request)
+    public function getOrderDetail(ViewOrderDetailRequest $request, Order $order)
     {
         $user = Auth::user();
         try {
-
-            $code = $request->query("code");
-            $type = $request->query("type");
-            $lists = $this->dataRepo->getAllDataOrder($code, $type);
-            $view = view('User.view_order')->with('lists', $lists)->with('type', $type)->render();
-            return $view;
+            $orderDetail = $this->orderRepo->getOrderDetail($order);
+            return response()->json(["data" => $orderDetail]);
         } catch (Exception $e) {
-            Note::note("getViewOrderDetailByCode", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $user->id);
+            Note::note("getViewOrderDetail Exception ", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, $user->id);
             return response()->json(["message" => SEVER_ERROR]);
         }
     }

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Repository\BaseRepo;
 use App\Models\History;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class HistoryRepository extends BaseRepo
 {
@@ -71,5 +72,23 @@ class HistoryRepository extends BaseRepo
             ->orderBy('history.created_at', 'asc')
             ->get();
         return $value;
+    }
+
+    /**
+     * Get all history for screen admin
+     * @param Request $request
+     * @param User $user
+     * @return Array|Collection
+     */
+    public function createHistoryRecharge(Request $request, User $user)
+    {
+        return $this->model->create([
+            'action_id' => $request->transactionID,
+            'action_content' => 'Admin + tiền',
+            'content' => 'Nạp tiền vào tài khoản',
+            'total_money' => $request->money,
+            'type' => NAP_TIEN,
+            'user_id' => $user->id
+        ]);
     }
 }

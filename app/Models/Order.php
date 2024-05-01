@@ -49,7 +49,7 @@ class Order extends Model
     /**
      * Model relationship with table order_items
      */
-    public function orderItem(): HasMany
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }

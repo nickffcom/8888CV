@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Repository\BaseRepo;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserRepository extends BaseRepo
@@ -24,9 +25,16 @@ class UserRepository extends BaseRepo
         return $check;
     }
 
-    public function updateMoneyByUserName($userName, $money, $action)
+    /**
+     * @param Request $equest
+     * @param  User $user
+     * Update money by userName
+     */
+    public function updateMoneyByUserName(Request $request,User $user)
     {
-        $user = $this->model->where('username', $userName)->firstOrFail();
+        $money = $request->input('money');
+        $action = $request->input('action', TRU_TIEN);
+        $moneyCaculate = 0;
         if ($action == CONG_TIEN) {
             $moneyCaculate = $user->money + (int)$money;
         } else if ($action == TRU_TIEN) {
@@ -36,5 +44,15 @@ class UserRepository extends BaseRepo
             'money' => $moneyCaculate
         ]);
         return $check;
+    }
+
+     /**
+     * @param Request $equest
+     * @param  User $user
+     * Update money by userName
+     */
+    public function getUserByUserName(Request $request)
+    {
+        return $this->model->where('username', $request->userName)->firstOrFail();
     }
 }

@@ -2,34 +2,34 @@
 
 namespace App\Repository;
 
-abstract class BaseRepo 
+abstract class BaseRepo
 {
-  
     protected $model;
-
-    public function __construct() {
+    public function __construct()
+    {
         $this->setModel();
     }
 
-
     abstract public function getModel();
 
-
-    public function setModel() {
+    public function setModel()
+    {
         $this->model = app()->make(
             $this->getModel()
         );
     }
 
-
-    public function getAll() {
+    public function getAll()
+    {
         return $this->model->orderByDesc('id')->get();
     }
 
-    public function getAllandPaginate() {
-        return $this->model->orderByDesc('id')->paginate(20);
+    public function getAllandPaginate()
+    {
+        return $this->model->orderByDesc('id')->paginate(30);
     }
-    public function find($id) {
+    public function find($id)
+    {
         $result = $this->model->find($id);
         return $result;
     }
@@ -39,7 +39,6 @@ abstract class BaseRepo
         return $this->model->create($attributes);
     }
 
-
     public function update($id, $attributes = [])
     {
         $result = $this->find($id);
@@ -47,7 +46,6 @@ abstract class BaseRepo
             $result->update($attributes);
             return $result;
         }
-
         return false;
     }
 
@@ -56,10 +54,8 @@ abstract class BaseRepo
         $result = $this->find($id);
         if ($result) {
             $result->delete();
-
             return true;
         }
-
         return false;
     }
 }

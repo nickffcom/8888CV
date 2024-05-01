@@ -42,9 +42,16 @@ class OrderRepository extends BaseRepo
      * @param User $user
      * @return mixed|Collection
      */
-    public function getOrderDetail(User $user, String $type)
+    public function getOrderDetail(Order $order, String $type = null)
     {
-        return $user->orders()->where('type', $type)->get();
+        $user = Auth::user();
+        $query = $order->whereHas('user', function (Builder $query) use ($user) {
+            $query->where('user_id', $user);
+        });
+        if ($type) {
+            $query->where('type', $type);
+        }
+        return $query->with(['orderItems.data'])->get();
     }
 
     /**

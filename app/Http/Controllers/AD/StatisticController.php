@@ -3,19 +3,14 @@
 namespace App\Http\Controllers\AD;
 
 use App\Http\Controllers\Controller;
-use App\Models\History;
-use App\Models\Order_service;
 use App\Models\Order;
 use App\Models\User;
-use App\Repository\DataRepo;
 use App\Repository\DataRepository;
-use App\Repository\HistoryRepo;
 use App\Repository\HistoryRepository;
-use App\Repository\ServiceRepo;
 use App\Repository\ServiceRepository;
 use Illuminate\Http\Request;
 
-class ThongKeController extends Controller
+class StatisticController extends Controller
 {
     protected $serviceRepo;
     protected $dataRepo;
