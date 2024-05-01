@@ -22,6 +22,7 @@ class UpdateDataRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => 'required|in:' . VIA . ',' . BM . ',' . CLONEE,
             'attribute1' => 'required|string|max:300',
             'attribute2' => 'required|string|max:300',
             'attribute3' => 'required|string|max:300',

@@ -74,7 +74,7 @@ class ManageDataController extends Controller
     public function update(UpdateDataRequest $request, Data $data)
     {
         try {
-            $data->update($request->all());
+            $data->update(['attr'=>json_encode($request->all())]);
             return response()->json([]);
         } catch (Exception $e) {
             Note::note("API Update User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
