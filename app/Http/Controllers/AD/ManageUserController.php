@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AD;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateMoneyRequest;
 use App\Jobs\SendThongBaoCongTienAdminQueue;
 use App\Models\Note;
 use App\Models\User;
@@ -76,11 +77,11 @@ class ManageUserController extends Controller
     }
 
     /**
-     * @param Request $equest
+     * @param UpdateMoneyRequest $equest
      * @param  User $user
-     * Update the specified resource in storage.
+     * Update money by username and create history then send mail to admin
      */
-    public function updateMoney(Request $request, User $user)
+    public function updateMoney(UpdateMoneyRequest $request, User $user)
     {
         DB::beginTransaction();
         try {

@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-
     protected $orderRepo;
     protected $dataRepo;
     public function __construct(OrderRepository $orderRepo, DataRepository $dataRepo)
@@ -24,7 +23,6 @@ class OrderController extends Controller
         $this->orderRepo = $orderRepo;
         $this->dataRepo = $dataRepo;
     }
-
 
     /**
      * Get Current user's purchase history
@@ -44,7 +42,6 @@ class OrderController extends Controller
         }
     }
 
-
     /**
      * Get Order Detail
      * @param ViewOrderDetailRequest $request
@@ -63,11 +60,10 @@ class OrderController extends Controller
         }
     }
 
-
     /**
-     * Index
+     * Download order
      * @param 
-     * @return \Illuminate\Contracts\View\View
+     * @return mixed
      */
     public function downloadOrder(ViewOrderDetailRequest $request)
     { // file Txt

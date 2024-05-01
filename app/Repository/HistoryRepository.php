@@ -87,7 +87,7 @@ class HistoryRepository extends BaseRepo
             'action_content' => 'Admin + tiền',
             'content' => 'Nạp tiền vào tài khoản',
             'total_money' => $request->money,
-            'type' => NAP_TIEN,
+            'type' => $request->action,
             'user_id' => $user->id
         ]);
     }

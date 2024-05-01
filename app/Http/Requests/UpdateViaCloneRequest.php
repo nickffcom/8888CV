@@ -24,12 +24,12 @@ class UpdateViaClone extends FormRequest
     public function rules()
     {
         return [
-            'uid'=>'required|string|max:100',
-            'pass'=>'required|string|max:100',
-            'key2fa'=>'required|string|max:100',
-            'email'=>'required|string|max:100',
-            'passmail'=>'required|string|max:100',
-            'note'=>'required|string|max:100',
+            'uid' => 'required|string|max:100',
+            'pass' => 'required|string|max:100',
+            'key2fa' => 'required|string|max:100',
+            'email' => 'required|string|max:100',
+            'passmail' => 'required|string|max:100',
+            'note' => 'required|string|max:100',
         ];
     }
 }
