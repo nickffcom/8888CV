@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\US;
 
 use App\Http\Controllers\Controller;
+use App\Models\Note;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -52,13 +53,13 @@ class SocialController extends Controller
             Auth::login($createUser, true);
             return redirect('/');
         } catch (Exception $e) {
-            addLogg("handleSocial", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
+            Note::note("handleSocial", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
             return "Lỗi" . $e;
         }
     }
 
     public function delete(Request $request)
     {
-        return "OK";
+
     }
 }

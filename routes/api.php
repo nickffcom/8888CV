@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AD\LogController;
+use App\Http\Controllers\AD\ManageDataController;
 use App\Http\Controllers\AD\ManageLogController;
 use App\Http\Controllers\AD\ManageServiceController;
 use App\Http\Controllers\AD\ManageUserController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\AD\ThongKeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\US\DataController;
 use App\Http\Controllers\US\HistoryController;
-use App\Http\Controllers\US\LoginController;
+use App\Http\Controllers\US\AuthController;
 use App\Http\Controllers\US\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("/login", [LoginController::class, "login"]);
+Route::post("/login", [AuthController::class, "login"]);
+Route::post("/login", [AuthController::class, "register"]);
 Route::get("/datas", [DataController::class, "getData"]);
 Route::get('/file/{folder?}/{path?}/{name?}', [FileController::class, 'getFile']);
 
@@ -50,5 +52,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'ability:can-any']], function () {
     Route::apiResource('service', ManageServiceController::class);
-    Route::apiResource('note', ManageLogController::class)->except([ 'store']);
+    Route::apiResource('note', ManageLogController::class)->except(['store']);
+    Route::apiResource('data', ManageDataController::class);
 });

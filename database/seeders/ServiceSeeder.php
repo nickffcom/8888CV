@@ -17,12 +17,7 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate([
-            "username" => "hainao9tk@gmail.com",
-            "email" => "hainao9tk@gmail.com",
-            "money" => 25000,
-            "password" => Hash::make(env("ADMIN_PASS", "123456789"))
-        ]);
+      
         Service::updateOrCreate([
             "name" => "Via XMDT 2029-2022",
             "description" => "Mua di ae oi re lam luon",

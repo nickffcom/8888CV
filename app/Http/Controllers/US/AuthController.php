@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\US;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Traits\ThrottlesAttempts;
-use App\Models\Log;
 use App\Models\Note;
+use App\Models\User;
 use App\Repository\UserRepository;
 use Carbon\Carbon;
 use Exception;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     use ThrottlesAttempts;
     protected $userRepo;
@@ -69,6 +70,32 @@ class LoginController extends Controller
         } catch (Exception $e) {
             Note::note("Logout User Exception : ", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
             return response()->json(["status" => false, "message" => SEVER_ERROR]);
+        }
+    }
+
+
+    /**
+     * Handle register user
+     * @param CreateUserRequest $request
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function register(CreateUserRequest $request)
+    {
+
+
+        try {
+
+            $this->userRepo->create(
+                [
+                    'username' => $request->username,
+                    'is_admin' => 1,
+                    'password' => Hash::make($request->password)
+                ]
+            );
+            return response()->json(["status" => true, "message" => "Đăng ký thành công nhé"]);
+        } catch (Exception $e) {
+            Note::note("Register Controller", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);
+            return response()->json(["status" => false, "message" => "Thất bại-> Vui lòng Đăng ký tài khoản khác"]);
         }
     }
 

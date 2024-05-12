@@ -7,6 +7,7 @@ use App\Http\Requests\BuyRequest;
 use App\Jobs\SendThongBaoMuaHangQueue;
 use App\Models\Data;
 use App\Models\History;
+use App\Models\Note;
 use App\Models\Order_service;
 use App\Models\Order;
 use App\Repository\DataRepo;
@@ -169,7 +170,7 @@ class BuyController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             // $this->userRepo->updateMoney($moneyRemain);
-            addLog("Funciton BuyDataFromMuaFbNet", $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
+            Note::note("Funciton BuyDataFromMuaFbNet", $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
             return ["status" => false, "message" => "Báo ngay cho Admin để xử lý gấp"];
         }
     }
@@ -237,7 +238,7 @@ class BuyController extends Controller
             }
         } catch (Exception $e) {
             DB::rollBack();
-            addLog("Funciton BuyData", Conver_ToString($e->getMessage()), LEVEL_EXCEPTION);
+            Note::note("Funciton BuyData", Conver_ToString($e->getMessage()), LEVEL_EXCEPTION);
             return ["status" => false, "message" => "Báo ngay cho Admin để xử lý gấp"];
         }
     }

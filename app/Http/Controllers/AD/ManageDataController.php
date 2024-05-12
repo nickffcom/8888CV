@@ -53,10 +53,9 @@ class ManageDataController extends Controller
 
     /**
      * Display the specified resource.
-     * @param Request $request
      * @param Data $data
      */
-    public function show(Request $request, Data $data)
+    public function show(Data $data)
     {
         try {
             return response()->json(["data" => $data]);
@@ -74,7 +73,7 @@ class ManageDataController extends Controller
     public function update(UpdateDataRequest $request, Data $data)
     {
         try {
-            $data->update(['attr'=>json_encode($request->all())]);
+            $data->update(['attr' => json_encode($request->all())]);
             return response()->json([]);
         } catch (Exception $e) {
             Note::note("API Update User", "Lỗi:" . $e->getMessage(), LEVEL_EXCEPTION);

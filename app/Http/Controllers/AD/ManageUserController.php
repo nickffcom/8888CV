@@ -89,11 +89,11 @@ class ManageUserController extends Controller
             $user = $this->userRepo->getUserByUserName($request);
             $this->userRepo->updateMoneyByUserName($request, $user);
             $this->historyRepo->createHistoryRecharge($request, $user);
-            DB::commit();
             $data['username'] = $user->username;
             $data['tongtien'] = $user;
             dispatch(new SendThongBaoCongTienAdminQueue($data));
             $this->userRepo->update($data);
+            DB::commit();
             return response()->json(["message" => SUCCESS]);
         } catch (Exception $e) {
             return response()->json(["message" => SEVER_ERROR]);
