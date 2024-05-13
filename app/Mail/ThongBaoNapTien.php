@@ -60,7 +60,7 @@ class ThongBaoNapTien extends Mailable
 
     public function build()
     {
-        // dd($this->userName);
+
         return $this->subject($this->thongtinthem)->view('Mail.ThongBaoNapTien')
             ->with([
                 'userName'    => $this->userName,
@@ -74,8 +74,8 @@ class ThongBaoNapTien extends Mailable
      *
      * @return array
      */
-    // public function attachments()
-    // {
-    //     return [];
-    // }
+    public function attachments()
+    {
+        return [];
+    }
 }

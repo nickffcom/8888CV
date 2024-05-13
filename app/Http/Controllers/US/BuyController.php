@@ -8,13 +8,9 @@ use App\Jobs\SendThongBaoMuaHangQueue;
 use App\Models\Data;
 use App\Models\History;
 use App\Models\Note;
-use App\Models\Order_service;
 use App\Models\Order;
-use App\Repository\DataRepo;
 use App\Repository\DataRepository;
-use App\Repository\ServiceRepo;
 use App\Repository\ServiceRepository;
-use App\Repository\UserRepo;
 use App\Repository\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -103,7 +99,7 @@ class BuyController extends Controller
             return response()->json($result);
         } catch (Exception $e) {
             $description = isset($check) ? 'Đã trừ tiền user nhưng bị lỗi' : '';
-            addLog("Func HandleBuy Main" . $description, $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
+            Note::note("Func HandleBuy Main" . $description, $e->getMessage(), LEVEL_EXCEPTION, Auth::user()->id);
             return RESULT(false, "Báo cho admin gấp nếu thấy có lỗi");
         }
     }

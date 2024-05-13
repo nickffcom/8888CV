@@ -20,12 +20,11 @@ class ThongBaoCongTienAdmin extends Mailable
      */
     public $userName;
     public $tongtien;
-    public function __construct($userName,$tongtien)
+    public function __construct($userName, $tongtien)
     {
-        
+
         $this->userName = $userName;
         $this->tongtien = $tongtien;
-
     }
 
     /**
@@ -59,12 +58,11 @@ class ThongBaoCongTienAdmin extends Mailable
 
     public function build()
     {
-        // dd($this->userName);
         return $this->subject("Cộng tiền Admin")->view('Mail.ThongBaoCongTienAdmin')
-       ->with([
-                    'userName' => $this->userName,
-                    'tongtien' => $this->tongtien,
-        ]);
+            ->with([
+                'userName' => $this->userName,
+                'tongtien' => $this->tongtien,
+            ]);
     }
 
     /**
@@ -72,8 +70,8 @@ class ThongBaoCongTienAdmin extends Mailable
      *
      * @return array
      */
-    // public function attachments()
-    // {
-    //     return [];
-    // }
+    public function attachments()
+    {
+        return [];
+    }
 }
